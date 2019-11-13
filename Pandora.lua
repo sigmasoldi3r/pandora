@@ -87,3 +87,9 @@ local operators = {
 local function operator(symbol)
   return operators[symbol] or symbol
 end
+
+return {
+  class = class,
+  operator = operator,
+  static = static
+}

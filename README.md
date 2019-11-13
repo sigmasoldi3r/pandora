@@ -54,4 +54,10 @@ local john = Person('John')
 john:shout()
 ```
 
+## Testing
+
+Tested with Lua 5.3.
+
+Run `lua Pandore.test.lua`
+
 [moonscript]: https://moonscript.org/
