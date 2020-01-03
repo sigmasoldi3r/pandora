@@ -58,6 +58,6 @@ john:shout()
 
 Tested with Lua 5.3.
 
-Run `lua Pandore.test.lua`
+Run `lua Pandora.test.lua`
 
 [moonscript]: https://moonscript.org/
