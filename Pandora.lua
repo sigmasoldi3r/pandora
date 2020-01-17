@@ -80,19 +80,15 @@ local operators = {
   ['()'] = '__call',
   ['string'] = '__tostring',
   ['='] = '__newindex',
-  ['[]'] = '__index'
+  ['[]'] = '__index',
+  ['&'] = '__band',
+  ['|'] = '__bor',
+  ['~'] = '__bxor',
+  ['!'] = '__bnot',
+  ['<<'] = '__shl',
+  ['>>'] = '__shr',
+  ['//'] = '__idiv'
 }
-
--- Append lua's operators based on version
-if _VERSION == 'Lua 5.3' then
-  operators['&'] = '__band'
-  operators['|'] = '__bor'
-  operators['~'] = '__bxor'
-  operators['(~)'] = '__bnot'
-  operators['<<'] = '__shl'
-  operators['>>'] = '__shr'
-  operators['//'] = '__idiv'
-end
 
 ---
 -- Operator overload sugar translator
