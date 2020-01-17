@@ -83,6 +83,11 @@ local operators = {
   ['[]'] = '__index'
 }
 
+-- Append lua's operators based on version
+if _VERSION == 'Lua 5.3' then
+  operators['//'] = '__idiv'
+end
+
 ---
 -- Operator overload sugar translator
 ---
