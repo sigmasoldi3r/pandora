@@ -85,6 +85,12 @@ local operators = {
 
 -- Append lua's operators based on version
 if _VERSION == 'Lua 5.3' then
+  operators['&'] = '__band'
+  operators['|'] = '__bor'
+  operators['~'] = '__bxor'
+  operators['(~)'] = '__bnot'
+  operators['<<'] = '__shl'
+  operators['>>'] = '__shr'
   operators['//'] = '__idiv'
 end
 
