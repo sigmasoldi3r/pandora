@@ -31,6 +31,11 @@ local function clone(value)
 end
 
 ---
+-- Extension symbol
+---
+local extends = {}
+
+---
 -- Builds the class prototype.
 ---
 local function class(name)
@@ -38,25 +43,43 @@ local function class(name)
     local Class = {}
     Class.__name__ = name
     local defaultValues = {}
+    local base = nil
     for name, value in pairs(def) do
-      if (type(name) == table and name.static) then
+      if type(name) == 'table' and name.static then
         Class[name.static or name] = value
+      elseif name == extends then
+        base = value
       elseif type(value) == 'function' then
         Class[name] = value
       elseif type(name) == 'string' then
         defaultValues[name] = value
       end
     end
+    Class.__constructor__ = Class[name]
     local ctor = Class[name]
     Class[name] = nil
     Class.__index = Class
-    return setmetatable(Class, {
-      __call = function(_, ...)
-        local self = setmetatable(clone(defaultValues), Class)
-        ctor(self, ...)
-        return self
+    if base then
+      Class.super = function(this, ...)
+        base.__constructor__(this, ...)
       end
-    })
+      return setmetatable(Class, {
+        __index = base,
+        __call = function(_, ...)
+          local self = setmetatable(clone(defaultValues), Class)
+          ctor(self, ...)
+          return self
+        end
+      })
+    else
+      return setmetatable(Class, {
+        __call = function(_, ...)
+          local self = setmetatable(clone(defaultValues), Class)
+          ctor(self, ...)
+          return self
+        end
+      })
+    end
   end
 end
 
@@ -99,11 +122,9 @@ local function operator(symbol)
   return operators[symbol] or symbol
 end
 
-local John = class 'John' {
-  John = function(this, name)
-    this.name = name or 'fuck u'
-  end
+return {
+  class = class,
+  operator = operator,
+  static = static,
+  extends = extends
 }
-
-local arbuckle = John('arbuckle')
-print('John is name = ' .. arbuckle.name)
