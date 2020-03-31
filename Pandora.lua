@@ -39,8 +39,10 @@ local function class(name)
     Class.__name__ = name
     local defaultValues = {}
     for name, value in pairs(def) do
-      if (type(name) == table and name.static) or type(value) == 'function' then
+      if (type(name) == table and name.static) then
         Class[name.static or name] = value
+      elseif type(value) == 'function' then
+        Class[name] = value
       elseif type(name) == 'string' then
         defaultValues[name] = value
       end
@@ -97,8 +99,11 @@ local function operator(symbol)
   return operators[symbol] or symbol
 end
 
-return {
-  class = class,
-  operator = operator,
-  static = static
+local John = class 'John' {
+  John = function(this, name)
+    this.name = name or 'fuck u'
+  end
 }
+
+local arbuckle = John('arbuckle')
+print('John is name = ' .. arbuckle.name)
