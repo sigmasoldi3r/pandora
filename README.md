@@ -54,6 +54,17 @@ local john = Person('John')
 john:shout()
 ```
 
+Extending is easy:
+
+```lua
+local Building = class 'Building' {
+  foo = function(this) println('foo') end
+}
+local House = class 'House' { [extends] = Building,
+  bar = function(this) println('bar') end
+}
+```
+
 ## Testing
 
 Tested with Lua 5.3.
